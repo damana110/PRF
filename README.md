@@ -2,7 +2,7 @@
 
 A mobile-first rowing training, fueling, recovery and progress PWA.
 
-## v0.3
+## v0.4
 
 - Seven-day training and fueling plan
 - Today timeline with planned workout, meals, snacks and creatine
@@ -15,6 +15,11 @@ A mobile-first rowing training, fueling, recovery and progress PWA.
 - Installable/offline PWA shell
 - Read-only Concept2 Logbook sync through a Netlify Function
 - Recent workout, split and interval import without exposing the Concept2 token to the browser
+- Interactive plan setup for age, gender, weight, multiple goals and daily workout windows
+- Equipment-aware exercise selection plus injury and limitation notes
+- Omnivore, pescatarian, vegetarian and vegan meal planning
+- Meal-prep rotation based on the number of dishes a user can realistically cook
+- Reopenable profile settings that regenerate the week without deleting workout history
 
 ## Run locally
 
