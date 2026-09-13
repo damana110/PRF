@@ -20,6 +20,10 @@ A mobile-first rowing training, fueling, recovery and progress PWA.
 - Omnivore, pescatarian, vegetarian and vegan meal planning
 - Meal-prep rotation based on the number of dishes a user can realistically cook
 - Reopenable profile settings that regenerate the week without deleting workout history
+- Multiple calendar-style availability blocks per day with optimized session placement
+- Daily readiness check-in moved to Today with a labeled five-point scale
+- User-added activities on any day
+- Weekly rotating meal-prep recommendations
 
 ## Run locally
 

@@ -241,6 +241,90 @@ h3 {
   margin: 20px 0 8px;
   color: #173f35;
 }
+.today-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 0 8px;
+}
+.today-section-heading h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.ghost.compact {
+  padding: 8px 10px;
+  color: #173f35;
+  font-weight: 750;
+}
+.checkin-panel {
+  margin-top: 20px;
+}
+.recovery-field {
+  border: 0;
+  padding: 0;
+  margin: 16px 0;
+}
+.recovery-field legend {
+  font-size: 13px;
+  font-weight: 750;
+  margin-bottom: 7px;
+}
+.recovery-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.recovery-options label {
+  margin: 0;
+}
+.recovery-options input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+}
+.recovery-options span {
+  display: block;
+  border: 1px solid #d6dfda;
+  border-radius: 10px;
+  padding: 8px 2px;
+  text-align: center;
+  background: white;
+  font-weight: 800;
+}
+.recovery-options small {
+  display: block;
+  font-size: 9px;
+  color: #68736f;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.recovery-options input:checked + span {
+  background: #173f35;
+  color: white;
+  border-color: #173f35;
+}
+.recovery-options input:checked + span small {
+  color: #dcebe6;
+}
+.activity-card {
+  border-left: 4px solid #c69c34;
+}
+.activity-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.activity-actions .primary {
+  margin-left: auto;
+  width: auto;
+}
+.danger-button {
+  padding: 11px;
+  border: 1px solid #d7b6b1;
+  background: #fff5f3;
+  color: #8b3028;
+  border-radius: 10px;
+}
 @media (min-width: 620px) {
   .targets {
     grid-template-columns: repeat(4, 1fr);
