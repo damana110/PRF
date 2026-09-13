@@ -7,72 +7,25 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="PRF">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest?v=021">
+  <link rel="icon" href="icon.svg?v=021" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=021">
   <title>PRF · Project Row Fast</title>
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><strong>PRF</strong><span>Project Row Fast</span></div>
+  <div class="brand"><strong>PRF</strong><span>Project Row Fast · v0.2.1</span></div>
   <button id="todayBtn" class="ghost">Today</button>
 </header>
-
 <main>
-  <section id="today" class="view active">
-    <div class="date-nav">
-      <button id="prevDay" aria-label="Previous day">‹</button>
-      <div><h1 id="dayTitle"></h1><p id="daySubtitle" class="muted"></p></div>
-      <button id="nextDay" aria-label="Next day">›</button>
-    </div>
-    <div id="targets" class="targets"></div>
-    <div id="timeline"></div>
-  </section>
-
-  <section id="calendar" class="view">
-    <h1>Calendar</h1>
-    <p class="muted">Tap a day to open its training and fueling plan.</p>
-    <div id="weekGrid" class="week-grid"></div>
-  </section>
-
-  <section id="progress" class="view">
-    <h1>Progress</h1>
-    <div class="panel"><h2>Recent check-ins</h2><div id="progressList"></div></div>
-    <div class="panel"><h2>What PRF is watching</h2><p>Body-weight stability, rowing and erg performance, strength progression, sleep, and recovery.</p></div>
-  </section>
-
-  <section id="coach" class="view">
-    <h1>Coach</h1>
-    <div class="panel"><h2>PRF Coach</h2><p>AI coaching will summarize training, recovery, nutrition, and body-weight trends and suggest changes for your approval. It will never silently change your plan.</p></div>
-    <div id="ruleCoach" class="panel"></div>
-  </section>
-
-  <section id="more" class="view">
-    <h1>More</h1>
-    <div class="panel">
-      <h2>Daily check-in</h2>
-      <label>Body weight (lb)<input id="weight" type="number" step="0.1" inputmode="decimal"></label>
-      <label>Sleep (hours)<input id="sleep" type="number" step="0.1" inputmode="decimal"></label>
-      <label>Recovery (1–5)<input id="recovery" type="number" min="1" max="5" inputmode="numeric"></label>
-      <label>Notes<textarea id="dailyNotes" rows="4"></textarea></label>
-      <button class="primary" id="saveCheckin">Save check-in</button>
-    </div>
-    <div class="panel"><h2>Core supplements</h2><p>Creatine monohydrate 5 g daily. Protein powder as needed to reach protein targets. B12 as appropriate for diet; vitamin D and iron based on clinical assessment/labs; EPA/DHA if fatty-fish intake is low.</p></div>
-  </section>
+  <section id="today" class="view active"><div class="date-nav"><button id="prevDay" aria-label="Previous day">‹</button><div><h1 id="dayTitle"></h1><p id="daySubtitle" class="muted"></p></div><button id="nextDay" aria-label="Next day">›</button></div><div id="targets" class="targets"></div><div id="timeline"></div></section>
+  <section id="calendar" class="view"><h1>Calendar</h1><p class="muted">Tap a day to open its training and fueling plan.</p><div id="weekGrid" class="week-grid"></div></section>
+  <section id="progress" class="view"><h1>Progress</h1><div class="panel"><h2>Recent check-ins</h2><div id="progressList"></div></div><div class="panel"><h2>What PRF is watching</h2><p>Body-weight stability, rowing and erg performance, strength progression, sleep, and recovery.</p></div></section>
+  <section id="coach" class="view"><h1>Coach</h1><div class="panel"><h2>PRF Coach</h2><p>AI coaching will summarize training, recovery, nutrition, and body-weight trends and suggest changes for your approval. It will never silently change your plan.</p></div><div id="ruleCoach" class="panel"></div></section>
+  <section id="more" class="view"><h1>More</h1><div class="panel"><h2>Daily check-in</h2><label>Body weight (lb)<input id="weight" type="number" step="0.1" inputmode="decimal"></label><label>Sleep (hours)<input id="sleep" type="number" step="0.1" inputmode="decimal"></label><label>Recovery (1–5)<input id="recovery" type="number" min="1" max="5" inputmode="numeric"></label><label>Notes<textarea id="dailyNotes" rows="4"></textarea></label><button class="primary" id="saveCheckin">Save check-in</button></div><div class="panel"><h2>Core supplements</h2><p>Creatine monohydrate 5 g daily. Protein powder as needed to reach protein targets. B12 as appropriate for diet; vitamin D and iron based on clinical assessment/labs; EPA/DHA if fatty-fish intake is low.</p></div></section>
 </main>
-
-<nav class="bottom-nav">
-  <button data-view="today" class="selected">Today</button>
-  <button data-view="calendar">Calendar</button>
-  <button data-view="progress">Progress</button>
-  <button data-view="coach">Coach</button>
-  <button data-view="more">More</button>
-</nav>
-
-<dialog id="detail">
-  <button class="close" id="closeDialog" aria-label="Close">×</button>
-  <div id="detailBody"></div>
-</dialog>
-<script src="app.js"></script>
+<nav class="bottom-nav"><button data-view="today" class="selected">Today</button><button data-view="calendar">Calendar</button><button data-view="progress">Progress</button><button data-view="coach">Coach</button><button data-view="more">More</button></nav>
+<dialog id="detail"><button class="close" id="closeDialog" aria-label="Close">×</button><div id="detailBody"></div></dialog>
+<script src="app.js?v=021"></script>
 </body>
 </html>
