@@ -1,5 +1,5 @@
-const CACHE='prf-v0.2.2';
-const ASSETS=['./','./index.html','./styles.css?v=022','./app.js?v=022','./workout-v022.js?v=022','./manifest.webmanifest?v=022','./icon.svg?v=022'];
+const CACHE='prf-v0.3.0';
+const ASSETS=['./','./index.html','./styles.css?v=030','./concept2-v030.css?v=030','./app.js?v=030','./workout-v022.js?v=030','./concept2-v030.js?v=030','./manifest.webmanifest?v=030','./icon.svg?v=030'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{

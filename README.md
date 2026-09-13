@@ -2,7 +2,7 @@
 
 A mobile-first rowing training, fueling, recovery and progress PWA.
 
-## v0.1
+## v0.3
 
 - Seven-day training and fueling plan
 - Today timeline with planned workout, meals, snacks and creatine
@@ -13,6 +13,8 @@ A mobile-first rowing training, fueling, recovery and progress PWA.
 - Initial deterministic recovery coaching
 - Local-first browser storage
 - Installable/offline PWA shell
+- Read-only Concept2 Logbook sync through a Netlify Function
+- Recent workout, split and interval import without exposing the Concept2 token to the browser
 
 ## Run locally
 
@@ -20,7 +22,11 @@ Serve the repository with any static web server. For example, from the repositor
 
 `python -m http.server 8000`
 
-Then open `http://localhost:8000`.
+Then open `http://localhost:8000`. Concept2 sync requires Netlify local development or the deployed Netlify site.
+
+## Netlify
+
+The server-side Concept2 integration reads `CONCEPT2_TOKEN` from Netlify's runtime environment. The token must have `results:read` access.
 
 ## GitHub Pages
 
