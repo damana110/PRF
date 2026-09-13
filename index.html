@@ -10,17 +10,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="PRF" />
-    <link rel="manifest" href="manifest.webmanifest?v=041" />
-    <link rel="icon" href="icon.svg?v=041" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=041" />
-    <link rel="stylesheet" href="concept2-v030.css?v=041" />
-    <link rel="stylesheet" href="setup-v040.css?v=041" />
+    <link rel="manifest" href="manifest.webmanifest?v=042" />
+    <link rel="icon" href="icon.svg?v=042" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=042" />
+    <link rel="stylesheet" href="concept2-v030.css?v=042" />
+    <link rel="stylesheet" href="setup-v040.css?v=042" />
     <title>PRF · Project Row Fast</title>
   </head>
   <body>
     <header class="topbar">
       <div class="brand">
-        <strong>PRF</strong><span>Project Row Fast · v0.4.1</span>
+        <strong>PRF</strong><span>Project Row Fast · v0.4.2</span>
       </div>
       <button id="todayBtn" class="ghost">Today</button>
     </header>
@@ -43,10 +43,7 @@
         <div id="timeline"></div>
         <div class="panel checkin-panel">
           <h2>Daily check-in</h2>
-          <p class="muted">
-            Recovery is how ready your body feels today: 1 = very poor, 2 =
-            poor, 3 = okay, 4 = good, 5 = excellent.
-          </p>
+          <p class="muted">A quick gut check—not a clinical recovery score.</p>
           <div class="log-grid">
             <label
               >Body weight (lb)<input
@@ -63,27 +60,27 @@
             /></label>
           </div>
           <fieldset class="recovery-field">
-            <legend>Recovery / readiness</legend>
+            <legend>How are you feeling?</legend>
             <div class="recovery-options">
               <label
                 ><input type="radio" name="recovery" value="1" /><span
-                  >1<small>Very poor</small></span
+                  ><small>Running on fumes</small></span
                 ></label
               ><label
                 ><input type="radio" name="recovery" value="2" /><span
-                  >2<small>Poor</small></span
+                  ><small>My legs are lead</small></span
                 ></label
               ><label
                 ><input type="radio" name="recovery" value="3" /><span
-                  >3<small>Okay</small></span
+                  ><small>I’ll warm into it</small></span
                 ></label
               ><label
                 ><input type="radio" name="recovery" value="4" /><span
-                  >4<small>Good</small></span
+                  ><small>Feeling solid</small></span
                 ></label
               ><label
                 ><input type="radio" name="recovery" value="5" /><span
-                  >5<small>Excellent</small></span
+                  ><small>Rarin’ to go</small></span
                 ></label
               >
             </div>
@@ -94,9 +91,37 @@
         </div>
       </section>
       <section id="calendar" class="view">
-        <h1>Calendar</h1>
-        <p class="muted">Tap a day to open its training and fueling plan.</p>
-        <div id="weekGrid" class="week-grid"></div>
+        <div class="calendar-title-row">
+          <div>
+            <h1>Calendar</h1>
+            <p class="muted">Open any day to see its plan and history.</p>
+          </div>
+          <div class="calendar-view-toggle">
+            <button id="weekViewBtn">Week</button
+            ><button id="monthViewBtn">Month</button>
+          </div>
+        </div>
+        <div id="weekCalendar"><div id="weekGrid" class="week-grid"></div></div>
+        <div id="monthCalendar" hidden>
+          <div class="month-toolbar">
+            <button id="previousMonth" aria-label="Previous month">‹</button
+            ><select id="calendarMonth" aria-label="Month"></select
+            ><input
+              id="calendarYear"
+              type="number"
+              min="1900"
+              max="2200"
+              aria-label="Year"
+            /><button id="nextMonth" aria-label="Next month">›</button
+            ><button id="calendarToday" class="ghost compact">Today</button>
+          </div>
+          <div class="calendar-legend">
+            <span><i class="dot logged"></i>Logged</span
+            ><span><i class="dot concept2"></i>Concept2</span
+            ><span><i class="dot planned"></i>Plan completed</span>
+          </div>
+          <div id="monthGrid" class="month-grid"></div>
+        </div>
       </section>
       <section id="progress" class="view">
         <h1>Progress</h1>
@@ -184,9 +209,9 @@
       </button>
       <div id="activityRoot"></div>
     </dialog>
-    <script src="app.js?v=041"></script>
-    <script src="workout-v022.js?v=041"></script>
-    <script src="setup-v040.js?v=041"></script>
-    <script src="concept2-v030.js?v=041"></script>
+    <script src="app.js?v=042"></script>
+    <script src="workout-v022.js?v=042"></script>
+    <script src="setup-v040.js?v=042"></script>
+    <script src="concept2-v030.js?v=042"></script>
   </body>
 </html>

@@ -244,7 +244,9 @@ const plan = {
     ],
   },
 };
-let date = new Date();
+let date = new Date(),
+  calendarCursor = new Date(date.getFullYear(), date.getMonth(), 1),
+  calendarMode = localStorage.getItem("prfCalendarMode") || "week";
 const key = (d) => {
   const x = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
   return x.toISOString().slice(0, 10);
@@ -263,6 +265,7 @@ function show(v) {
     .forEach((x) => x.classList.toggle("selected", x.dataset.view === v));
   if (v === "progress") renderProgress();
   if (v === "coach") renderCoach();
+  if (v === "calendar") renderCalendar();
 }
 function render() {
   const p = dayPlan(date),
@@ -422,27 +425,94 @@ function openItem(i) {
   detail.showModal();
 }
 function renderCalendar() {
-  weekGrid.innerHTML = DAYS.slice(1)
-    .concat("Sunday")
-    .map(
-      (n) =>
-        `<button class="day-card" data-day="${n}"><strong>${n}</strong><p>${plan[n].training}</p></button>`,
-    )
-    .join("");
-  document.querySelectorAll(".day-card").forEach(
-    (b) =>
-      (b.onclick = () => {
-        const target = DAYS.indexOf(b.dataset.day),
-          diff = (target - date.getDay() + 7) % 7;
-        date = new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate() + diff,
-        );
-        render();
-        show("today");
-      }),
+  weekCalendar.hidden = calendarMode !== "week";
+  monthCalendar.hidden = calendarMode !== "month";
+  weekViewBtn.classList.toggle("selected", calendarMode === "week");
+  monthViewBtn.classList.toggle("selected", calendarMode === "month");
+  const monday = new Date(date);
+  monday.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+  weekGrid.innerHTML = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const p = dayPlan(d),
+      entry = logs()[key(d)] || {};
+    return `<button class="day-card ${key(d) === key(date) ? "selected-day" : ""}" data-date="${key(d)}"><strong>${d.toLocaleDateString(undefined, { weekday: "long" })}</strong><small>${d.toLocaleDateString(undefined, { month: "short", day: "numeric" })}</small><p>${p.training}</p>${historyDots(entry, key(d))}</button>`;
+  }).join("");
+  document
+    .querySelectorAll("[data-date]")
+    .forEach(
+      (button) => (button.onclick = () => openCalendarDay(button.dataset.date)),
+    );
+  if (calendarMode === "month") renderMonthCalendar();
+}
+function concept2Dates() {
+  try {
+    return new Set(
+      JSON.parse(localStorage.getItem("prfConcept2Results") || "[]").map(
+        (row) => (row.dateUtc || row.date || "").slice(0, 10),
+      ),
+    );
+  } catch {
+    return new Set();
+  }
+}
+function historyDots(entry, dateKey, c2 = concept2Dates()) {
+  const logged = entry.checkin || (entry.activities || []).length,
+    completed = Object.values(entry.items || {}).some(
+      (item) => item.status === "yes" || item.status === "modified",
+    ),
+    hasC2 = c2.has(dateKey);
+  return `<span class="history-dots">${logged ? '<i class="dot logged" title="Check-in or activity"></i>' : ""}${hasC2 ? '<i class="dot concept2" title="Concept2"></i>' : ""}${completed ? '<i class="dot planned" title="Plan completed"></i>' : ""}</span>`;
+}
+function openCalendarDay(value) {
+  const [y, m, d] = value.split("-").map(Number);
+  date = new Date(y, m - 1, d);
+  calendarCursor = new Date(y, m - 1, 1);
+  render();
+  show("today");
+}
+function renderMonthCalendar() {
+  const monthNames = Array.from({ length: 12 }, (_, i) =>
+    new Date(2020, i, 1).toLocaleDateString(undefined, { month: "long" }),
   );
+  calendarMonth.innerHTML = monthNames
+    .map((name, i) => `<option value="${i}">${name}</option>`)
+    .join("");
+  calendarMonth.value = calendarCursor.getMonth();
+  calendarYear.value = calendarCursor.getFullYear();
+  const year = calendarCursor.getFullYear(),
+    month = calendarCursor.getMonth(),
+    firstOffset = (new Date(year, month, 1).getDay() + 6) % 7,
+    days = new Date(year, month + 1, 0).getDate(),
+    entries = logs(),
+    c2 = concept2Dates();
+  monthGrid.innerHTML = `${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((x) => `<span class="weekday-label">${x}</span>`).join("")}${Array.from({ length: firstOffset }, () => '<span class="month-blank"></span>').join("")}${Array.from(
+    { length: days },
+    (_, i) => {
+      const d = new Date(year, month, i + 1),
+        k = key(d),
+        entry = entries[k] || {},
+        hasHistory =
+          entry.checkin ||
+          (entry.activities || []).length ||
+          Object.keys(entry.items || {}).length ||
+          c2.has(k);
+      return `<button class="month-day ${k === key(date) ? "selected-day" : ""} ${k === key(new Date()) ? "is-today" : ""}" data-month-date="${k}" aria-label="${d.toLocaleDateString()}"><strong>${i + 1}</strong>${historyDots(entry, k, c2)}${hasHistory ? "<small>View</small>" : ""}</button>`;
+    },
+  ).join("")}`;
+  document
+    .querySelectorAll("[data-month-date]")
+    .forEach(
+      (button) =>
+        (button.onclick = () => openCalendarDay(button.dataset.monthDate)),
+    );
+}
+function setCalendarMode(mode) {
+  calendarMode = mode;
+  if (mode === "month")
+    calendarCursor = new Date(date.getFullYear(), date.getMonth(), 1);
+  localStorage.setItem("prfCalendarMode", mode);
+  renderCalendar();
 }
 function loadCheckin() {
   const c = logs()[key(date)]?.checkin || {};
@@ -536,7 +606,7 @@ function renderProgress() {
       ? `<h3>Recovery</h3>${rows
           .map((k) => {
             const c = a[k].checkin;
-            return `<p><strong>${k}</strong> · ${c.weight || "—"} lb · ${c.sleep || "—"} h sleep · recovery ${c.recovery || "—"}/5</p>`;
+            return `<p><strong>${k}</strong> · ${c.weight || "—"} lb · ${c.sleep || "—"} h sleep · ${feelingLabel(c.recovery)}</p>`;
           })
           .join("")}`
       : '<p class="muted">No check-ins yet. Your trends will appear here.</p>');
@@ -551,14 +621,25 @@ function renderCoach() {
       .filter(Boolean);
   if (!recent.length) {
     ruleCoach.innerHTML =
-      "<h2>Current guidance</h2><p>Log several days of sleep, recovery, body weight and workouts to begin trend-based coaching.</p>";
+      "<h2>Current guidance</h2><p>Log several days of sleep, how you feel, body weight and workouts to begin trend-based coaching.</p>";
     return;
   }
   const r = recent.map((x) => +x.recovery).filter(Boolean),
     s = recent.map((x) => +x.sleep).filter(Boolean),
     avg = (x) =>
       x.length ? (x.reduce((a, b) => a + b, 0) / x.length).toFixed(1) : "—";
-  ruleCoach.innerHTML = `<h2>Current guidance</h2><p>Recent average recovery: <strong>${avg(r)}/5</strong>. Average sleep: <strong>${avg(s)} h</strong>.</p><p>${r.length && +avg(r) < 3 ? "Recovery is running low. Preserve key rowing sessions and consider reducing accessory volume until it rebounds." : "Keep building the log. PRF will use performance plus recovery trends to guide progression without automatically changing the plan."}</p>`;
+  ruleCoach.innerHTML = `<h2>Current guidance</h2><p>Recent feeling trend: <strong>${avg(r)}/5</strong>. Average sleep: <strong>${avg(s)} h</strong>.</p><p>${r.length && +avg(r) < 3 ? "You’ve often felt flat lately. Preserve key rowing sessions and consider reducing accessory volume until that changes." : "Keep building the log. PRF will use performance plus how you feel to guide progression without automatically changing the plan."}</p>`;
+}
+function feelingLabel(value) {
+  return (
+    {
+      1: "Running on fumes",
+      2: "My legs are lead",
+      3: "I’ll warm into it",
+      4: "Feeling solid",
+      5: "Rarin’ to go",
+    }[value] || "Feeling not logged"
+  );
 }
 document
   .querySelectorAll(".bottom-nav button")
@@ -579,6 +660,33 @@ todayBtn.onclick = () => {
 closeDialog.onclick = () => detail.close();
 closeActivityDialog.onclick = () => activityDialog.close();
 addActivity.onclick = () => openActivity();
+weekViewBtn.onclick = () => setCalendarMode("week");
+monthViewBtn.onclick = () => setCalendarMode("month");
+previousMonth.onclick = () => {
+  calendarCursor.setMonth(calendarCursor.getMonth() - 1);
+  renderMonthCalendar();
+};
+nextMonth.onclick = () => {
+  calendarCursor.setMonth(calendarCursor.getMonth() + 1);
+  renderMonthCalendar();
+};
+calendarMonth.onchange = () => {
+  calendarCursor.setMonth(+calendarMonth.value);
+  renderMonthCalendar();
+};
+calendarYear.onchange = () => {
+  const year = Math.max(
+    1900,
+    Math.min(2200, +calendarYear.value || new Date().getFullYear()),
+  );
+  calendarCursor.setFullYear(year);
+  renderMonthCalendar();
+};
+calendarToday.onclick = () => {
+  date = new Date();
+  calendarCursor = new Date(date.getFullYear(), date.getMonth(), 1);
+  renderCalendar();
+};
 saveCheckin.onclick = () => {
   const a = logs(),
     k = key(date);

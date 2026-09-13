@@ -24,6 +24,9 @@ A mobile-first rowing training, fueling, recovery and progress PWA.
 - Daily readiness check-in moved to Today with a labeled five-point scale
 - User-added activities on any day
 - Weekly rotating meal-prep recommendations
+- Personality-based “How are you feeling?” check-in
+- Week and month calendar views with direct month/year navigation
+- Historical markers for check-ins, activities, completed plans and Concept2 rows
 
 ## Run locally
 
